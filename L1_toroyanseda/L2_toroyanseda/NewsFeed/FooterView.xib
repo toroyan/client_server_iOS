@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="FooterView" customModule="L2_toroyanseda" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="102"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WaV-Fv-KdL">
+                    <rect key="frame" x="0.0" y="38" width="39" height="12"/>
+                    <state key="normal" image="heart_1">
+                        <attributedString key="attributedTitle">
+                            <fragment content=" 1200">
+                                <attributes>
+                                    <font key="NSFont" size="10" name=".AppleSystemUIFont"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8SO-Ha-sgM">
+                    <rect key="frame" x="53" y="38" width="35" height="12"/>
+                    <state key="normal" image="Comment-1">
+                        <attributedString key="attributedTitle">
+                            <fragment content=" 234">
+                                <attributes>
+                                    <font key="NSFont" size="10" name=".AppleSystemUIFont"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTQ-2Z-9gq">
+                    <rect key="frame" x="0.0" y="99" width="375" height="3"/>
+                    <color key="backgroundColor" red="0.88230650908704655" green="0.88230650908704655" blue="0.88230650908704655" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="375" id="97I-Vp-5p2"/>
+                        <constraint firstAttribute="height" constant="3" id="cWO-oP-5pw"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D6C-bc-GuJ">
+                    <rect key="frame" x="123" y="36" width="26" height="16"/>
+                    <state key="normal" image="Share">
+                        <attributedString key="attributedTitle">
+                            <fragment content=" 6">
+                                <attributes>
+                                    <font key="NSFont" size="10" name=".AppleSystemUIFont"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="pTQ-2Z-9gq" secondAttribute="trailing" id="37G-GH-Nze"/>
+                <constraint firstItem="WaV-Fv-KdL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Gg6-Fs-IIc"/>
+                <constraint firstAttribute="bottom" secondItem="pTQ-2Z-9gq" secondAttribute="bottom" id="Gt7-bi-mcH"/>
+                <constraint firstItem="D6C-bc-GuJ" firstAttribute="leading" secondItem="8SO-Ha-sgM" secondAttribute="trailing" constant="35" id="Oav-tz-Emn"/>
+                <constraint firstItem="WaV-Fv-KdL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-7" id="SUd-Ty-Xib"/>
+                <constraint firstItem="8SO-Ha-sgM" firstAttribute="leading" secondItem="WaV-Fv-KdL" secondAttribute="trailing" constant="14" id="aUe-k9-MUN"/>
+                <constraint firstItem="D6C-bc-GuJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-7" id="azb-Ol-zo6"/>
+                <constraint firstItem="WaV-Fv-KdL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-168" id="cK7-vy-TzL"/>
+                <constraint firstItem="8SO-Ha-sgM" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-7" id="ifT-yN-STS"/>
+                <constraint firstItem="pTQ-2Z-9gq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pfX-Qd-a4C"/>
+                <constraint firstAttribute="bottom" secondItem="pTQ-2Z-9gq" secondAttribute="bottom" id="uDj-NK-seP"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="commentButton" destination="8SO-Ha-sgM" id="5mC-oT-Gnn"/>
+                <outlet property="likeButton" destination="WaV-Fv-KdL" id="IQk-pr-hqR"/>
+                <outlet property="lineView" destination="pTQ-2Z-9gq" id="mPu-Th-7lX"/>
+                <outlet property="shareButton" destination="D6C-bc-GuJ" id="YCQ-L4-YA4"/>
+            </connections>
+            <point key="canvasLocation" x="440.80000000000001" y="16.641679160419791"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Comment-1" width="12" height="12"/>
+        <image name="Share" width="16" height="16"/>
+        <image name="heart_1" width="12" height="12"/>
+    </resources>
+</document>
