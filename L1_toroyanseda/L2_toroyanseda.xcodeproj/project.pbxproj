@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F66CB14EEB9CA9093B7170F /* Pods_L2_toroyanseda.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5B7C6F2CA457BBAD0E059BC /* Pods_L2_toroyanseda.framework */; };
 		9E03632A22525CE800E781C8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03632922525CE800E781C8 /* GradientView.swift */; };
 		9E11CC512236CF840037208E /* UserImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E11CC502236CF840037208E /* UserImageView.swift */; };
 		9E11CC53223703F60037208E /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E11CC52223703F60037208E /* ShadowView.swift */; };
@@ -19,6 +20,7 @@
 		9E28A84F224025080006053A /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E28A84E224025080006053A /* HeaderView.swift */; };
 		9E28A851224025210006053A /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E28A850224025210006053A /* HeaderView.xib */; };
 		9E2A32372237A27C00BC35B7 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2A32362237A27C00BC35B7 /* LikeButton.swift */; };
+		9E31F87622764DCA00194B73 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E31F87522764DCA00194B73 /* WebKit.framework */; };
 		9E393942222D9DD100C3146E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E393941222D9DD100C3146E /* AppDelegate.swift */; };
 		9E393944222D9DD100C3146E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E393943222D9DD100C3146E /* ViewController.swift */; };
 		9E393947222D9DD100C3146E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E393945222D9DD100C3146E /* Main.storyboard */; };
@@ -40,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3982D108461EE3FD73890948 /* Pods-L2_toroyanseda.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-L2_toroyanseda.release.xcconfig"; path = "Target Support Files/Pods-L2_toroyanseda/Pods-L2_toroyanseda.release.xcconfig"; sourceTree = "<group>"; };
 		9E03632922525CE800E781C8 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		9E11CC502236CF840037208E /* UserImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImageView.swift; sourceTree = "<group>"; };
 		9E11CC52223703F60037208E /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
@@ -52,6 +55,7 @@
 		9E28A84E224025080006053A /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		9E28A850224025210006053A /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		9E2A32362237A27C00BC35B7 /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
+		9E31F87522764DCA00194B73 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		9E39393E222D9DD100C3146E /* L2_toroyanseda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = L2_toroyanseda.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E393941222D9DD100C3146E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E393943222D9DD100C3146E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +66,7 @@
 		9E393953222D9E0300C3146E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9E6CF557224B77E4002CE7DE /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		9E6CF559224BFB43002CE7DE /* FooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FooterView.xib; sourceTree = "<group>"; };
+		9E7502E33D6E9BE274948CF3 /* Pods-L2_toroyanseda.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-L2_toroyanseda.debug.xcconfig"; path = "Target Support Files/Pods-L2_toroyanseda/Pods-L2_toroyanseda.debug.xcconfig"; sourceTree = "<group>"; };
 		9E78A82B225BBB50000F0AF8 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		9E9D2E9A223BB16900721044 /* FirstLetterButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLetterButtons.swift; sourceTree = "<group>"; };
 		9EA1BAFC2256631000F02CFF /* UserPhotoGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotoGalleryViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +77,7 @@
 		9ED61634224D489400A3DD0E /* CustomPushAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPushAnimator.swift; sourceTree = "<group>"; };
 		9ED61636224D4B2000A3DD0E /* CustomPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopAnimator.swift; sourceTree = "<group>"; };
 		9EE9C779224E26F500689D99 /* CustomInteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInteractiveTransition.swift; sourceTree = "<group>"; };
+		F5B7C6F2CA457BBAD0E059BC /* Pods_L2_toroyanseda.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_L2_toroyanseda.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,12 +85,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E31F87622764DCA00194B73 /* WebKit.framework in Frameworks */,
+				6F66CB14EEB9CA9093B7170F /* Pods_L2_toroyanseda.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		971ADF98A83B319EAAADDEB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9E31F87522764DCA00194B73 /* WebKit.framework */,
+				F5B7C6F2CA457BBAD0E059BC /* Pods_L2_toroyanseda.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9E25CCDE2233144F00EEB88A /* UsersList */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +156,8 @@
 				9E39393F222D9DD100C3146E /* Products */,
 				9E03632922525CE800E781C8 /* GradientView.swift */,
 				9E393953222D9E0300C3146E /* LoginViewController.swift */,
+				9E5F6DD4637D831DE24C2A77 /* Pods */,
+				971ADF98A83B319EAAADDEB3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,6 +187,15 @@
 			path = L2_toroyanseda;
 			sourceTree = "<group>";
 		};
+		9E5F6DD4637D831DE24C2A77 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9E7502E33D6E9BE274948CF3 /* Pods-L2_toroyanseda.debug.xcconfig */,
+				3982D108461EE3FD73890948 /* Pods-L2_toroyanseda.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		9EBED04B224A076B005B2A2F /* NewsFeed */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,9 +214,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9E393950222D9DD200C3146E /* Build configuration list for PBXNativeTarget "L2_toroyanseda" */;
 			buildPhases = (
+				6BA787242FE57A149B673A08 /* [CP] Check Pods Manifest.lock */,
 				9E39393A222D9DD100C3146E /* Sources */,
 				9E39393B222D9DD100C3146E /* Frameworks */,
 				9E39393C222D9DD100C3146E /* Resources */,
+				12A6BDD87DE351F18063C6CF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -247,6 +277,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		12A6BDD87DE351F18063C6CF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-L2_toroyanseda/Pods-L2_toroyanseda-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-L2_toroyanseda/Pods-L2_toroyanseda-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6BA787242FE57A149B673A08 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-L2_toroyanseda-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9E39393A222D9DD100C3146E /* Sources */ = {
@@ -423,6 +500,7 @@
 		};
 		9E393951222D9DD200C3146E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E7502E33D6E9BE274948CF3 /* Pods-L2_toroyanseda.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -443,6 +521,7 @@
 		};
 		9E393952222D9DD200C3146E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3982D108461EE3FD73890948 /* Pods-L2_toroyanseda.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
