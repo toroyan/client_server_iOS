@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6F66CB14EEB9CA9093B7170F /* Pods_L2_toroyanseda.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5B7C6F2CA457BBAD0E059BC /* Pods_L2_toroyanseda.framework */; };
 		9E03632A22525CE800E781C8 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E03632922525CE800E781C8 /* GradientView.swift */; };
+		9E099728227C37DC00A8F4C7 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E099727227C37DC00A8F4C7 /* Classes.swift */; };
 		9E11CC512236CF840037208E /* UserImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E11CC502236CF840037208E /* UserImageView.swift */; };
 		9E11CC53223703F60037208E /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E11CC52223703F60037208E /* ShadowView.swift */; };
 		9E25CCE0223314A600EEB88A /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E25CCDF223314A600EEB88A /* UserListViewController.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		3982D108461EE3FD73890948 /* Pods-L2_toroyanseda.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-L2_toroyanseda.release.xcconfig"; path = "Target Support Files/Pods-L2_toroyanseda/Pods-L2_toroyanseda.release.xcconfig"; sourceTree = "<group>"; };
 		9E03632922525CE800E781C8 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		9E099727227C37DC00A8F4C7 /* Classes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classes.swift; sourceTree = "<group>"; };
 		9E11CC502236CF840037208E /* UserImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImageView.swift; sourceTree = "<group>"; };
 		9E11CC52223703F60037208E /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		9E25CCDF223314A600EEB88A /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				9E393948222D9DD200C3146E /* Assets.xcassets */,
 				9E39394A222D9DD200C3146E /* LaunchScreen.storyboard */,
 				9E39394D222D9DD200C3146E /* Info.plist */,
+				9E099727227C37DC00A8F4C7 /* Classes.swift */,
 			);
 			path = L2_toroyanseda;
 			sourceTree = "<group>";
@@ -289,12 +292,16 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-L2_toroyanseda/Pods-L2_toroyanseda-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -346,6 +353,7 @@
 				9E25CCE0223314A600EEB88A /* UserListViewController.swift in Sources */,
 				9EBED04F224A0ADF005B2A2F /* NewsTableViewCell.swift in Sources */,
 				9E25CCF42233319B00EEB88A /* NewGroupViewController.swift in Sources */,
+				9E099728227C37DC00A8F4C7 /* Classes.swift in Sources */,
 				9E25CCED22332C0A00EEB88A /* GroupListTableViewCell.swift in Sources */,
 				9ED61635224D489400A3DD0E /* CustomPushAnimator.swift in Sources */,
 				9E393944222D9DD100C3146E /* ViewController.swift in Sources */,

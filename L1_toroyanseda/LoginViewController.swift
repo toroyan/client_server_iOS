@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import WebKit
+import AlamofireObjectMapper
 
 class Session{
     static let shared = Session()
@@ -92,32 +93,56 @@ class LoginViewController: UIViewController, WKNavigationDelegate{
         let session = Session.shared
         session.token = token!
         print(session.token)
+       
+        // Get Friends
+        let URL="https://api.vk.com/method/friends.get?access_token=\(session.token)&fields=photo_100,order=random&v=5.95"
+        Alamofire.request(URL).responseObject { (response: DataResponse<UserResponse>) in
+            
+            let uResponse = response.result.value
+    
+            if let userItems = uResponse?.itemsResponse {
+                for users in userItems {
+                   print("Name:" + users.firstName! + " Surname:" + users.lastName! + " Photo:" + users.photo!)
+                  
+                }
+            }
+        }
+     
         
-        Alamofire.request("https://api.vk.com/method/friends.get?access_token=\(session.token)&order=random&v=5.95").responseJSON {(response) in
-            print("Friends list\n",response.value as Any)
+        // Get Groups
+        let GroupURL="https://api.vk.com/method/groups.get?access_token=\(session.token)&fields=photo_100,name&extended=1&v=5.95"
+        Alamofire.request(GroupURL).responseObject { (response: DataResponse<GroupsResponse>) in
+            
+            let gResponse = response.result.value
+            
+            if let groupItems = gResponse?.itemsResponse {
+                for groups in groupItems {
+                    print("Name:" + groups.name! + " Photo:" + groups.photo!)
+                }
+            }
         }
+    
         
-        Alamofire.request("https://api.vk.com/method/photos.getUserPhotos?access_token=\(session.token)&extended=1&v=5.95").responseJSON {(response) in
-            print("Photos\n", response.value as Any)
+        // Get Photos
+       let PhotoURL="https://api.vk.com/method/photos.getUserPhotos?access_token=\(session.token)&owner_id=-1&extended=0&v=5.95"
+        Alamofire.request(PhotoURL).responseObject { (response: DataResponse<PhotosResponse>) in
+            let pResponse = response.result.value
+            if let photoItems = pResponse?.photosResponse {
+                for photos in photoItems {
+                    if photos.type == "m"{ // выводим только мидиум размеры
+                     print("Photo:" + photos.url!)
+                    }
+                }
+            }
         }
-        Alamofire.request("https://api.vk.com/method/groups.get?access_token=\(session.token)&v=5.95").responseJSON {(response) in
-            print("Groups\n",response.value as Any)
-        }
+   
         
-        let groupName = "fotosessia"
-        Alamofire.request("https://api.vk.com/method/groups.search?access_token=\(session.token)&q=\(groupName)&type=group&v=5.95").responseJSON {(response) in
-            print("Groups search\n",response.value as Any)
-        }
+        
         decisionHandler(.cancel)
     }
 
 
     
-    
-    
-    
-    
-   
     // Появление клавиатуры
     @objc func keyboardWasShown(notification: Notification) {
         let info = notification.userInfo! as NSDictionary
