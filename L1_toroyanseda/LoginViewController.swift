@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import WebKit
+
 class Session{
     static let shared = Session()
     private init() {}
@@ -14,7 +17,7 @@ class Session{
     var token:String = ""
     
 }
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, WKNavigationDelegate{
 
     @IBOutlet weak var scrollView: UIScrollView!
    
@@ -34,20 +37,86 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var dot3Image: UIImageView!
    
     
+    @IBOutlet weak var webView: WKWebView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        webView.navigationDelegate = self
      // жест нажатия
         let hideKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
      
         scrollView?.addGestureRecognizer(hideKeyboardGesture)
+  
+        
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "oauth.vk.com"
+        urlComponents.path = "/authorize"
+        urlComponents.queryItems = [
+            URLQueryItem(name: "client_id", value: "6964680"),
+            URLQueryItem(name: "display", value: "mobile"),
+            URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
+            URLQueryItem(name: "scope", value: "262150"),
+            URLQueryItem(name: "response_type", value: "token"),
+            URLQueryItem(name: "v", value: "5.95"),
+            URLQueryItem(name: "revoke", value: "1")
+        ]
+        
+        let request = URLRequest(url: urlComponents.url!)
+        
+        webView.load(request)
+
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        
+        guard let url = navigationResponse.response.url, url.path == "/blank.html", let fragment = url.fragment  else {
+            decisionHandler(.allow)
+            return
+        }
+        
+        let params = fragment
+            .components(separatedBy: "&")
+            .map { $0.components(separatedBy: "=") }
+            .reduce([String: String]()) { result, param in
+                var dict = result
+                let key = param[0]
+                let value = param[1]
+                dict[key] = value
+                return dict
+        }
+        
+        let token = params["access_token"]
         let session = Session.shared
-        session.userId = 12345
-        session.token = "5defcgh90jkng"
+        session.token = token!
+        print(session.token)
+        
+        Alamofire.request("https://api.vk.com/method/friends.get?access_token=\(session.token)&order=random&v=5.95").responseJSON {(response) in
+            print("Friends list\n",response.value as Any)
+        }
+        
+        Alamofire.request("https://api.vk.com/method/photos.getUserPhotos?access_token=\(session.token)&extended=1&v=5.95").responseJSON {(response) in
+            print("Photos\n", response.value as Any)
+        }
+        Alamofire.request("https://api.vk.com/method/groups.get?access_token=\(session.token)&v=5.95").responseJSON {(response) in
+            print("Groups\n",response.value as Any)
+        }
+        
+        let groupName = "fotosessia"
+        Alamofire.request("https://api.vk.com/method/groups.search?access_token=\(session.token)&q=\(groupName)&type=group&v=5.95").responseJSON {(response) in
+            print("Groups search\n",response.value as Any)
+        }
+        decisionHandler(.cancel)
     }
 
 
+    
+    
+    
+    
+    
    
     // Появление клавиатуры
     @objc func keyboardWasShown(notification: Notification) {
