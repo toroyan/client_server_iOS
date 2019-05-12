@@ -5,6 +5,7 @@ target 'L2_toroyanseda' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 pod 'Alamofire'
+pod 'AlamofireObjectMapper'
   # Pods for L2_toroyanseda
-
+pod 'AlamofireImage'
 end
