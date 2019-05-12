@@ -102,7 +102,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate{
     
             if let userItems = uResponse?.itemsResponse {
                 for users in userItems {
-                   print("Name:" + users.firstName! + " Surname:" + users.lastName! + " Photo:" + users.photo!)
+                  print("Name:" + users.firstName! + " Surname:" + users.lastName! + " Photo:" + users.photo!)
                   
                 }
             }
@@ -130,13 +130,17 @@ class LoginViewController: UIViewController, WKNavigationDelegate{
             if let photoItems = pResponse?.photosResponse {
                 for photos in photoItems {
                     if photos.type == "m"{ // выводим только мидиум размеры
-                     print("Photo:" + photos.url!)
+                    print("Photo:" + photos.url!)
                     }
                 }
             }
         }
    
-        
+  
+        let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainVC = mainStoryBoard.instantiateViewController(withIdentifier: "tabBarController") as! UITabBarController
+      
+        self.present(mainVC, animated: true)
         
         decisionHandler(.cancel)
     }

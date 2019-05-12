@@ -7,8 +7,11 @@
 //
 
 import UIKit
-
+import Alamofire
+import ObjectMapper
 class UserListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate{
+    
+   //var users = [String]()
     
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -18,40 +21,81 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     var indexUser=0
-    let users=["Anna Belkova", "Olga Nosova", "Suzan Black", "Andrew Simpson","Alina Zaitseva","David Green","Marina Novikova","Elen Mironova","Lily Adams","Kate Ivanova","Petr Petrov","Irina Slepakova"]
     
-   
+     var completionHandlers: [([String]) -> Void] = []
+   var users = ["Anna Belkova", "Olga Nosova", "Suzan Black", "Andrew Simpson","Alina Zaitseva","David Green","Marina Novikova","Elen Mironova","Lily Adams","Kate Ivanova","Petr Petrov","Irina Slepakova"]
+    
     var usersDict = [String:[String]]()
     var usersSectionTitle = [String]()
-     var searchUser = [String]()
+    var searchUser = [String]()
     var searching = false
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-    
-      
-
-        createUsersDict()
-        
         tableView.dataSource = self
-        self.tableView.delegate = self
-        tableView.reloadData()
         
-        firstletterbuttons.tableView = tableView
+        let session = Session.shared
+        let token = session.token
+        
+        let URL="https://api.vk.com/method/friends.get?access_token=\(token)&fields=photo_100,order=random&v=5.95"
+        Alamofire.request(URL).responseObject { (response: DataResponse<UserResponse>) in
+            let uResponse = response.result.value
+            if let userItems = uResponse?.itemsResponse{
+                for user in userItems {
+                    if user.firstName != "DELETED" {
+                        self.users.append(user.firstName!)
+                    }
+                    
+                }
+              
+            }
+              self.tableView.reloadData()
+        }
        
+     
+        //----closure calling
         
+       /* friendsLoading()  { [weak self] (users)
+            in
+            self?.users = users
+            self?.tableView.reloadData()
+        }*/
+
+        
+        createUsersDict()
+        self.tableView.delegate = self
+        //tableView.reloadData()
+        firstletterbuttons.tableView = tableView
         let headerNib = UINib.init(nibName: "HeaderView", bundle: Bundle.main)
         tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "HeaderView")
-   
-        // вывод token и userId
-       let session = Session.shared
-       print(session.userId, session.token)
-       
+
     }
 
+       // ----- Closure
+        /* func friendsLoading(completionHandler: @escaping ([String]) -> Void) {
+         let session = Session.shared
+         let token = session.token
+         
+         let URL="https://api.vk.com/method/friends.get?access_token=\(token)&fields=photo_100,order=random&v=5.95"
+         Alamofire.request(URL).responseObject { (response: DataResponse<UserResponse>) in
+         let uResponse = response.result.value
+         
+         if let userItems = uResponse?.itemsResponse{
+         for user in userItems {
+         if user.firstName != "DELETED" {
+            self.users.append(user.firstName! + " " + user.lastName!)
+         }
+         
+         }
+            completionHandler(self.users)
+            self.completionHandlers = [completionHandler]
+         }
+         }
+     
+        */
+        
     
-  
+
     func numberOfSections(in tableView: UITableView) -> Int {
         if searching{
             return 1
@@ -60,6 +104,7 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
         return usersSectionTitle.count
         }
     }
+
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) ->
     UIView? {
@@ -73,11 +118,13 @@ header.headerLabel.text = usersSectionTitle[section]
 
         return header
     }
-    
+
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 60
     }
-   
+
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if searching{
     return searchUser.count
@@ -108,7 +155,7 @@ header.headerLabel.text = usersSectionTitle[section]
             }
             
             else{
-          var usersKey = usersSectionTitle[indexPath.section]
+                let usersKey = usersSectionTitle[indexPath.section]
             if let usersValue = usersDict[usersKey]{
                 
                 cell.userNameLabel?.text = usersValue[indexPath.row]
@@ -146,22 +193,23 @@ header.headerLabel.text = usersSectionTitle[section]
     
     
     func createUsersDict(){
+ 
         for user in users{
           var arr = user.split(separator: " ")
-            
+            print(arr)
     let firstLetter = arr[1].index(arr[1].startIndex, offsetBy:1)
       
            let usersKey = String(arr[1][..<firstLetter])
-            if var usersValue = usersDict[usersKey]{
+            if var usersValue = self.usersDict[usersKey]{
                 usersValue.append(user)
-                usersDict[usersKey] = usersValue
+                self.usersDict[usersKey] = usersValue
             }
             else {
-                usersDict[usersKey] = [user]
+                self.usersDict[usersKey] = [user]
             }
               }
-        usersSectionTitle = [String](usersDict.keys).sorted(by: { $0<$1})
-      
+        self.usersSectionTitle = [String]((self.usersDict.keys)).sorted(by: { $0<$1})
+        
 }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searching = true

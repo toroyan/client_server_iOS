@@ -11,14 +11,14 @@ import ObjectMapper
 
 // Get Friends
 class UserResponse: Mappable{
-    var countResponse: Int?
+    //var countResponse: Int?
     var itemsResponse: [Items]?
     
     required init?(map: Map){
         
     }
     func mapping(map: Map){
-        countResponse <- map["response.count"]
+        //countResponse <- map["response.count"]
         itemsResponse <- map["response.items"]
     }
 }

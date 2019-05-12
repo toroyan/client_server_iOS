@@ -7,5 +7,5 @@ target 'L2_toroyanseda' do
 pod 'Alamofire'
 pod 'AlamofireObjectMapper'
   # Pods for L2_toroyanseda
-
+pod 'AlamofireImage'
 end
