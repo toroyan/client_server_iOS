@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import WebKit
 import AlamofireObjectMapper
-
+import SwiftKeychainWrapper
 class Session{
     static let shared = Session()
     private init() {}
@@ -72,38 +72,52 @@ class LoginViewController: UIViewController, WKNavigationDelegate{
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+   
+        // Сохранение токена в  KeyChain
+       let session = Session.shared
+       var tokenData = KeychainWrapper.standard.string(forKey: "token")
         
-        guard let url = navigationResponse.response.url, url.path == "/blank.html", let fragment = url.fragment  else {
-            decisionHandler(.allow)
-            return
+        if tokenData == nil{
+            guard let url = navigationResponse.response.url, url.path == "/blank.html", let fragment = url.fragment  else {
+                decisionHandler(.allow)
+                return
+            }
+            
+            let params = fragment
+                .components(separatedBy: "&")
+                .map { $0.components(separatedBy: "=") }
+                .reduce([String: String]()) { result, param in
+                    var dict = result
+                    let key = param[0]
+                    let value = param[1]
+                    dict[key] = value
+                    return dict
+            }
+            
+            KeychainWrapper.standard.set(params["access_token"]!, forKey: "token")
+            tokenData = KeychainWrapper.standard.string(forKey: "token")
+            print("setting new token")
+         
         }
+           session.token = tokenData!
+        print("session.token",session.token)
+            //KeychainWrapper.standard.removeAllKeys()
         
-        let params = fragment
-            .components(separatedBy: "&")
-            .map { $0.components(separatedBy: "=") }
-            .reduce([String: String]()) { result, param in
-                var dict = result
-                let key = param[0]
-                let value = param[1]
-                dict[key] = value
-                return dict
-        }
         
-        let token = params["access_token"]
-        let session = Session.shared
-        session.token = token!
-        print(session.token)
-       
+        
         // Get Friends
         let URL="https://api.vk.com/method/friends.get?access_token=\(session.token)&fields=photo_100,order=random&v=5.95"
         Alamofire.request(URL).responseObject { (response: DataResponse<UserResponse>) in
             
             let uResponse = response.result.value
-    
             if let userItems = uResponse?.itemsResponse {
                 for users in userItems {
-                  print("Name:" + users.firstName! + " Surname:" + users.lastName! + " Photo:" + users.photo!)
-                  
+                //  print("Name:" + users.firstName! + " Surname:" + users.lastName! + " Photo:" + users.photo!)
+                 
+            // Сохранение имени пользователя в UserDefaults
+             UserDefaults.standard.set(users.firstName, forKey: "userName")
+             var usersName = UserDefaults.standard.string(forKey: "userName")
+             print("Saved user Name from UserDefaults", usersName)
                 }
             }
         }
@@ -117,7 +131,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate{
             
             if let groupItems = gResponse?.itemsResponse {
                 for groups in groupItems {
-                    print("Name:" + groups.name! + " Photo:" + groups.photo!)
+                   // print("Name:" + groups.name! + " Photo:" + groups.photo!)
                 }
             }
         }

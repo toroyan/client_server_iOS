@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import ObjectMapper
 import AlamofireImage
-
+import SwiftKeychainWrapper
 
 class GroupListViewController: UIViewController {
     var indexUser=0
@@ -24,29 +24,43 @@ class GroupListViewController: UIViewController {
         tableView.dataSource = self
       //  groupsLoading()
         let session = Session.shared
-        let token = session.token
-        
-            let GroupURL="https://api.vk.com/method/groups.get?access_token=\(token)&fields=photo_100,name&extended=1&v=5.95"
+   
+       
+        //print("session" , session.token)
+            let GroupURL="https://api.vk.com/method/groups.get?access_token=\(session.token)&fields=photo_100,name&extended=1&v=5.95"
             Alamofire.request(GroupURL).responseObject { (response: DataResponse<GroupsResponse>) in
                 
                 let gResponse = response.result.value
-               
                 if let groupItems = gResponse?.itemsResponse {
                     for groups in groupItems {
                         self.groupsL.append(groups.name!)
                         self.gImages.append(groups.photo!)
-                        //  print("Name:" + groups.name! + " Photo:" + groups.photo!)
+                        /*
+                      //print(groups.photo!)
+                        Alamofire.request(groups.photo!).responseImage(completionHandler: { (response) in
+                            if let image = response.result.value {
+                               // let imageDatam: NSData = image.pngData()! as NSData
+                                DispatchQueue.main.async {
+                                    //print(groups.name!)
+                                    UserDefaults.standard.set(image,forKey:groups.name!)
+                                }
+                            }
+                        })
+                        //print("Name:" + groups.name! + " Photo:" + groups.photo!)
+                        */
                     }
                 }
            
                 self.tableView.reloadData()
             }
+        
+        //print(UserDefaults.standard.object(forKey: "1"))
         }
     
-  
     
     
-    @IBAction func addGroup(segue: UIStoryboardSegue) {
+    
+   @IBAction func addGroup(segue: UIStoryboardSegue) {
         if let info = segue.source as? NewGroupViewController{
             guard let indexPath = info.tableView.indexPathForSelectedRow else{
                 return
@@ -70,13 +84,20 @@ class GroupListViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as! GroupListTableViewCell
             //print("fff", groupsL)
             cell.groupNameLabel.text = groupsL[indexPath.row]
-           // cell.groupImageView.image = UIImage(named:groups[indexPath.row])
+          
+            
+            /*
+            if let data = UserDefaults.standard.object(forKey: groupsL[indexPath.row]) as? UIImage {
+                DispatchQueue.main.async {
+                    cell.groupImageView.image = data
+                }
+            }
+             */
+            
             if let imageURL = gImages[indexPath.row] as? String {
                 Alamofire.request(imageURL).responseImage(completionHandler: { (response) in
                     if let image = response.result.value{
-                        DispatchQueue.main.async {
                             cell.groupImageView.image = image
-                        }
                     }
                 })
             }

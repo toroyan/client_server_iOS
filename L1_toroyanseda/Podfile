@@ -8,4 +8,5 @@ pod 'Alamofire'
 pod 'AlamofireObjectMapper'
   # Pods for L2_toroyanseda
 pod 'AlamofireImage'
+pod 'SwiftKeychainWrapper'
 end

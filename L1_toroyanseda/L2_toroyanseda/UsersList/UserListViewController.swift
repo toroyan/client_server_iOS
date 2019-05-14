@@ -35,9 +35,8 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         
         let session = Session.shared
-        let token = session.token
-        
-        let URL="https://api.vk.com/method/friends.get?access_token=\(token)&fields=photo_100,order=random&v=5.95"
+       
+        let URL="https://api.vk.com/method/friends.get?access_token=\(session.token)&fields=photo_100,order=random&v=5.95"
         Alamofire.request(URL).responseObject { (response: DataResponse<UserResponse>) in
             let uResponse = response.result.value
             if let userItems = uResponse?.itemsResponse{
@@ -196,7 +195,7 @@ header.headerLabel.text = usersSectionTitle[section]
  
         for user in users{
           var arr = user.split(separator: " ")
-            print(arr)
+           // print(arr)
     let firstLetter = arr[1].index(arr[1].startIndex, offsetBy:1)
       
            let usersKey = String(arr[1][..<firstLetter])
