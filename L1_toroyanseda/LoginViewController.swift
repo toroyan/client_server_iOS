@@ -101,7 +101,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate{
         }
            session.token = tokenData!
         print("session.token",session.token)
-            //KeychainWrapper.standard.removeAllKeys()
+           // KeychainWrapper.standard.removeAllKeys()
         
         
         
@@ -144,7 +144,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate{
             if let photoItems = pResponse?.photosResponse {
                 for photos in photoItems {
                     if photos.type == "m"{ // выводим только мидиум размеры
-                    print("Photo:" + photos.url!)
+                   // print("Photo:" + photos.url!)
                     }
                 }
             }
