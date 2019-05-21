@@ -8,6 +8,7 @@
 
 import Foundation
 import ObjectMapper
+import RealmSwift
 
 // Get Friends
 class UserResponse: Mappable{
@@ -42,22 +43,22 @@ class Items: Mappable {
 
 
 // Get Groups
-class GroupsResponse: Mappable{
+class GroupsResponse:Object, Mappable{
     var itemsResponse: [ItemsGroups]?
     
-    required init?(map: Map){
-        
+    convenience  required init?(map: Map){
+        self.init()
     }
     func mapping(map: Map){
         itemsResponse <- map["response.items"]
     }
 }
-class ItemsGroups: Mappable {
-    var id : Int?
-    var name : String?
+class ItemsGroups:Object, Mappable {
+    @objc dynamic var id = 0
+   @objc dynamic var name : String?
     var photo: String?
-    required init?(map: Map){
-        
+   convenience required init?(map: Map){
+       self.init()
     }
     func mapping(map: Map){
         id <- map["id"]

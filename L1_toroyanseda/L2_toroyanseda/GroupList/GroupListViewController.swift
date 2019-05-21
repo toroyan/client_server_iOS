@@ -11,54 +11,88 @@ import Alamofire
 import ObjectMapper
 import AlamofireImage
 import SwiftKeychainWrapper
+import Foundation
+import RealmSwift
+
+class Rgroups: Object {
+   // @objc dynamic var id = 0
+    @objc dynamic var name = ""
+    @objc dynamic var gUrl = ""
+    }
+
+var groupsName: [Any] = []
+
+
 
 class GroupListViewController: UIViewController {
     var indexUser=0
     var groups = ["Painting", "Dancing", "Music", "Theatre"]
     var groupsL = [String]()
     var gImages = [String]()
+    var userName = [String]()
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-      //  groupsLoading()
+        tableView.dataSource = self as! UITableViewDataSource 
+    
         let session = Session.shared
-   
-       
-        //print("session" , session.token)
+      
+     
             let GroupURL="https://api.vk.com/method/groups.get?access_token=\(session.token)&fields=photo_100,name&extended=1&v=5.95"
+        
             Alamofire.request(GroupURL).responseObject { (response: DataResponse<GroupsResponse>) in
                 
                 let gResponse = response.result.value
                 if let groupItems = gResponse?.itemsResponse {
                     for groups in groupItems {
-                        self.groupsL.append(groups.name!)
-                        self.gImages.append(groups.photo!)
-                        /*
-                      //print(groups.photo!)
-                        Alamofire.request(groups.photo!).responseImage(completionHandler: { (response) in
-                            if let image = response.result.value {
-                               // let imageDatam: NSData = image.pngData()! as NSData
-                                DispatchQueue.main.async {
-                                    //print(groups.name!)
-                                    UserDefaults.standard.set(image,forKey:groups.name!)
-                                }
-                            }
-                        })
-                        //print("Name:" + groups.name! + " Photo:" + groups.photo!)
-                        */
+                    
+                        do {
+                            let realm = try Realm()
+                            realm.beginWrite()
+                            let newRgroups = Rgroups()
+                            newRgroups.name = groups.name!
+                            newRgroups.gUrl = groups.photo!
+                            realm.add(newRgroups)
+                            try realm.commitWrite()
+                            
+                        }
+                        catch{
+                            print(error)
+                        }
+                        
                     }
+                 
                 }
-           
-                self.tableView.reloadData()
+            self.tableView.reloadData()
+                
             }
-        
-        //print(UserDefaults.standard.object(forKey: "1"))
+       loadingData()
+        tableView.reloadData()
+
+        let realm = try! Realm()
+        print(realm.configuration.fileURL)
+    
         }
     
     
-    
+    func loadingData(){
+        do{
+           
+            let realm = try! Realm()
+            var groupsName  = realm.objects(Rgroups.self)
+            for group in groupsName{
+                groupsL.append(group.name)
+                gImages.append(group.gUrl)
+            }
+        
+        }
+           
+        
+        catch{
+            print("error", error)
+        }
+    }
     
    @IBAction func addGroup(segue: UIStoryboardSegue) {
         if let info = segue.source as? NewGroupViewController{
@@ -78,23 +112,16 @@ class GroupListViewController: UIViewController {
        
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return groupsL.count
+         //   return 30
+       
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as! GroupListTableViewCell
-            //print("fff", groupsL)
-            cell.groupNameLabel.text = groupsL[indexPath.row]
           
+            cell.groupNameLabel.text = groupsL[indexPath.row]
             
-            /*
-            if let data = UserDefaults.standard.object(forKey: groupsL[indexPath.row]) as? UIImage {
-                DispatchQueue.main.async {
-                    cell.groupImageView.image = data
-                }
-            }
-             */
-            
-            if let imageURL = gImages[indexPath.row] as? String {
+           if let imageURL = gImages[indexPath.row] as? String {
                 Alamofire.request(imageURL).responseImage(completionHandler: { (response) in
                     if let image = response.result.value{
                             cell.groupImageView.image = image
