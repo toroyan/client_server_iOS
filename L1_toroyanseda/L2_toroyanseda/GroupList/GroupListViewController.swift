@@ -10,6 +10,18 @@ import UIKit
 import Alamofire
 import ObjectMapper
 import AlamofireImage
+import SwiftKeychainWrapper
+import Foundation
+import RealmSwift
+
+class Rgroups: Object {
+   // @objc dynamic var id = 0
+    @objc dynamic var name = ""
+    @objc dynamic var gUrl = ""
+    }
+
+var groupsName: [Any] = []
+
 
 
 class GroupListViewController: UIViewController {
@@ -17,36 +29,72 @@ class GroupListViewController: UIViewController {
     var groups = ["Painting", "Dancing", "Music", "Theatre"]
     var groupsL = [String]()
     var gImages = [String]()
+    var userName = [String]()
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-      //  groupsLoading()
+        tableView.dataSource = self as! UITableViewDataSource 
+    
         let session = Session.shared
-        let token = session.token
+      
+     
+            let GroupURL="https://api.vk.com/method/groups.get?access_token=\(session.token)&fields=photo_100,name&extended=1&v=5.95"
         
-            let GroupURL="https://api.vk.com/method/groups.get?access_token=\(token)&fields=photo_100,name&extended=1&v=5.95"
             Alamofire.request(GroupURL).responseObject { (response: DataResponse<GroupsResponse>) in
                 
                 let gResponse = response.result.value
-               
                 if let groupItems = gResponse?.itemsResponse {
                     for groups in groupItems {
-                        self.groupsL.append(groups.name!)
-                        self.gImages.append(groups.photo!)
-                        //  print("Name:" + groups.name! + " Photo:" + groups.photo!)
+                    
+                        do {
+                            let realm = try Realm()
+                            realm.beginWrite()
+                            let newRgroups = Rgroups()
+                            newRgroups.name = groups.name!
+                            newRgroups.gUrl = groups.photo!
+                            realm.add(newRgroups)
+                            try realm.commitWrite()
+                            
+                        }
+                        catch{
+                            print(error)
+                        }
+                        
                     }
+                 
                 }
-           
-                self.tableView.reloadData()
+            self.tableView.reloadData()
+                
             }
+       loadingData()
+        tableView.reloadData()
+
+        let realm = try! Realm()
+        print(realm.configuration.fileURL)
+    
         }
     
-  
     
+    func loadingData(){
+        do{
+           
+            let realm = try! Realm()
+            var groupsName  = realm.objects(Rgroups.self)
+            for group in groupsName{
+                groupsL.append(group.name)
+                gImages.append(group.gUrl)
+            }
+        
+        }
+           
+        
+        catch{
+            print("error", error)
+        }
+    }
     
-    @IBAction func addGroup(segue: UIStoryboardSegue) {
+   @IBAction func addGroup(segue: UIStoryboardSegue) {
         if let info = segue.source as? NewGroupViewController{
             guard let indexPath = info.tableView.indexPathForSelectedRow else{
                 return
@@ -64,19 +112,19 @@ class GroupListViewController: UIViewController {
        
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return groupsL.count
+         //   return 30
+       
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as! GroupListTableViewCell
-            //print("fff", groupsL)
+          
             cell.groupNameLabel.text = groupsL[indexPath.row]
-           // cell.groupImageView.image = UIImage(named:groups[indexPath.row])
-            if let imageURL = gImages[indexPath.row] as? String {
+            
+           if let imageURL = gImages[indexPath.row] as? String {
                 Alamofire.request(imageURL).responseImage(completionHandler: { (response) in
                     if let image = response.result.value{
-                        DispatchQueue.main.async {
                             cell.groupImageView.image = image
-                        }
                     }
                 })
             }

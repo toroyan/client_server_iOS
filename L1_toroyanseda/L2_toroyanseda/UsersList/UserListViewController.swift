@@ -9,9 +9,12 @@
 import UIKit
 import Alamofire
 import ObjectMapper
+import AlamofireImage
+import Foundation
+
 class UserListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate{
     
-   //var users = [String]()
+ 
     
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -21,48 +24,59 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     var indexUser=0
-    
+     var users = [String]()
+    var usersImage = [String]()
      var completionHandlers: [([String]) -> Void] = []
-   var users = ["Anna Belkova", "Olga Nosova", "Suzan Black", "Andrew Simpson","Alina Zaitseva","David Green","Marina Novikova","Elen Mironova","Lily Adams","Kate Ivanova","Petr Petrov","Irina Slepakova"]
+  // var users = ["Anna Belkova", "Olga Nosova", "Suzan Black", "Andrew Simpson","Alina Zaitseva","David Green","Marina Novikova","Elen Mironova","Lily Adams","Kate Ivanova","Petr Petrov","Irina Slepakova"]
     
     var usersDict = [String:[String]]()
     var usersSectionTitle = [String]()
     var searchUser = [String]()
     var searching = false
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         
         let session = Session.shared
-        let token = session.token
-        
-        let URL="https://api.vk.com/method/friends.get?access_token=\(token)&fields=photo_100,order=random&v=5.95"
+       
+       let URL="https://api.vk.com/method/friends.get?access_token=\(session.token)&fields=photo_100,order=random&v=5.95"
         Alamofire.request(URL).responseObject { (response: DataResponse<UserResponse>) in
+   
             let uResponse = response.result.value
+            //let code = resp
             if let userItems = uResponse?.itemsResponse{
                 for user in userItems {
-                    if user.firstName != "DELETED" {
-                        self.users.append(user.firstName!)
+                if user.firstName != "DELETED" {
+                        DispatchQueue.main.async {
+                            self.usersImage.append(user.photo!)
+                        }
+        
                     }
                     
                 }
-              
+             // let imgcount = self.usersImage.count
+                  self.tableView.reloadData()
             }
-              self.tableView.reloadData()
+           
+            
         }
        
+        
+ //print("start",self.usersImage.count)
      
         //----closure calling
         
-       /* friendsLoading()  { [weak self] (users)
+       friendsLoading()  { [weak self] (users)
             in
             self?.users = users
+            self!.createUsersDict()
             self?.tableView.reloadData()
-        }*/
-
+        }
         
-        createUsersDict()
+     
+        
+     //  createUsersDict()
         self.tableView.delegate = self
         //tableView.reloadData()
         firstletterbuttons.tableView = tableView
@@ -72,7 +86,7 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
        // ----- Closure
-        /* func friendsLoading(completionHandler: @escaping ([String]) -> Void) {
+         func friendsLoading(completionHandler: @escaping ([String]) -> Void) {
          let session = Session.shared
          let token = session.token
          
@@ -84,17 +98,19 @@ class UserListViewController: UIViewController, UITableViewDelegate, UITableView
          for user in userItems {
          if user.firstName != "DELETED" {
             self.users.append(user.firstName! + " " + user.lastName!)
+            self.usersImage.append(user.photo!)
+         
          }
          
          }
             completionHandler(self.users)
+         
             self.completionHandlers = [completionHandler]
          }
          }
-     
-        */
+    }
         
-    
+  
 
     func numberOfSections(in tableView: UITableView) -> Int {
         if searching{
@@ -126,12 +142,12 @@ header.headerLabel.text = usersSectionTitle[section]
 
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if searching{
-    return searchUser.count
+        if searching{
+        return searchUser.count
         }
-
-            return 1
-       
+        else{
+            return usersDict[usersSectionTitle[section]]!.count
+        }
     }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -146,28 +162,49 @@ header.headerLabel.text = usersSectionTitle[section]
             cell.userImageView.clipsToBounds = true
             cell.userImageView.layer.cornerRadius = cornerRadius
             cell.ShadowView.layer.cornerRadius = cornerRadius
-     
-            
+  
             if searching{
                 cell.userNameLabel.text = searchUser[indexPath.row]
-                cell.userImageView.image = UIImage(named:searchUser[indexPath.row])
+                let index = users.index(of: searchUser[indexPath.row])
+                
+                if let imageURL = usersImage[index!] as? String{
+                    Alamofire.request(imageURL).responseImage(completionHandler: { (response) in
+                        if let image = response.result.value{
+                            cell.userImageView.image = image
+                        }
+                    })
+                }
                 return cell
             }
             
-            else{
+            else {
+              //  usleep(useconds_t(2 * 200000))
                 let usersKey = usersSectionTitle[indexPath.section]
-            if let usersValue = usersDict[usersKey]{
-                
-                cell.userNameLabel?.text = usersValue[indexPath.row]
-             
-                cell.userImageView?.image = UIImage(named:usersValue[indexPath.row])
-           
-                
+                // print("asd",usersImage.count)
+                if let usersValue = usersDict[usersKey]{
+                      cell.userNameLabel?.text = usersValue[indexPath.row]
+                 
+                    let index = users.index(of: usersValue[indexPath.row])
+                    if usersImage.count == 0 {
+                        print("Проблема с загрузкой данных из ВК, попробуйте еще раз")
+                    }
+                    else{
+                        if let imageURL = usersImage[index!] as? String {
+                                  Alamofire.request(imageURL).responseImage(completionHandler: { (response) in
+                                    if let image = response.result.value{
+                                         DispatchQueue.main.async {
+                                          
+                                            cell.userImageView.image = image
+                                         }
+                                    }
+                                  })
+                            }
+                         }
+                        }
                 }
-                
-
-            }
-          return cell
+            
+            
+            return cell
             
     }
 
@@ -196,20 +233,20 @@ header.headerLabel.text = usersSectionTitle[section]
  
         for user in users{
           var arr = user.split(separator: " ")
-            print(arr)
+           // print(arr)
     let firstLetter = arr[1].index(arr[1].startIndex, offsetBy:1)
       
            let usersKey = String(arr[1][..<firstLetter])
             if var usersValue = self.usersDict[usersKey]{
                 usersValue.append(user)
                 self.usersDict[usersKey] = usersValue
+          
             }
             else {
                 self.usersDict[usersKey] = [user]
             }
               }
         self.usersSectionTitle = [String]((self.usersDict.keys)).sorted(by: { $0<$1})
-        
 }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searching = true
@@ -219,7 +256,7 @@ header.headerLabel.text = usersSectionTitle[section]
     
     
             func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-       searchUser = users.filter({$0.lowercased().prefix(searchText.count)==searchText.lowercased()})
+                searchUser = users.filter({$0.lowercased().prefix(searchText.count)==searchText.lowercased()})
                
                 if searchText != ""{
                
@@ -233,7 +270,7 @@ header.headerLabel.text = usersSectionTitle[section]
         }
    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
- searching = false
+        searching = false
         tableView.reloadData()
         
     }
