@@ -15,7 +15,7 @@ import Foundation
 import RealmSwift
 
 class Rgroups: Object {
-   // @objc dynamic var id = 0
+
     @objc dynamic var name = ""
     @objc dynamic var gUrl = ""
     }
@@ -67,9 +67,8 @@ class GroupListViewController: UIViewController, UITableViewDataSource {
             self.tableView.reloadData()
                 
             }
-      // loadingData()
-        //tableView.reloadData()
-observing()
+
+        observing()
         let realm = try! Realm()
         print(realm.configuration.fileURL)
     
@@ -103,37 +102,25 @@ observing()
         var groupsObserver = realm.objects(Rgroups.self)
         
         for group in groupsObserver{
-            //print("OMG! it works")
             groupsL.append(group.name)
             gImages.append(group.gUrl)
         }
-        print("groupsObserver", groupsObserver.count)
-        print("array of groupname", groupsL.count)
-        print("array of images",gImages.count)
-        
+  
         Ntoken = groupsObserver.observe { [weak self] (changes: RealmCollectionChange) in
-              print("данные изменились")
             guard let tableView = self?.tableView else { return }
             switch changes {
             case .initial:
                 tableView.reloadData()
             case .update(_, let deletions, let insertions, let modifications):
                 tableView.beginUpdates()
-              
-             /*  tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                   with: .automatic)
-                */
                 var indexPath = IndexPath(row: self!.groupsL.count, section: 0)
-            //    print("groupsL.count",self!.groupsL.count)
                  var groupsObserver = realm.objects(Rgroups.self)
                 self!.groupsL.removeAll()
                 self!.gImages.removeAll()
                 for group in groupsObserver{
-                    //print("OMG! it works")
                     self!.groupsL.append(group.name)
                     self!.gImages.append(group.gUrl)
                 }
-                //  print("groupsL.count",self!.groupsL.count)
                 tableView.insertRows(at: [indexPath], with: .automatic)
                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
                                    with: .automatic)
@@ -142,7 +129,7 @@ observing()
                 
       tableView.endUpdates()
             case .error(let error):
-                fatalError("FUCKING !!! \(error)")
+                fatalError("\(error)")
             }
         }
         
@@ -165,8 +152,6 @@ func numberOfSections(in tableView: UITableView) -> Int {
      return 1
     }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       //  print (groupsL.count)
-           // print("section:",section)
             return groupsL.count
       
         }
