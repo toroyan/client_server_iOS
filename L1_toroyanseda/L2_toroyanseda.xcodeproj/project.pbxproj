@@ -115,8 +115,8 @@
 				9E28A84E224025080006053A /* HeaderView.swift */,
 				9E28A850224025210006053A /* HeaderView.xib */,
 				9ED61632224D461C00A3DD0E /* CustomNavigationController.swift */,
-				9ED61634224D489400A3DD0E /* CustomPushAnimator.swift */,
 				9ED61636224D4B2000A3DD0E /* CustomPopAnimator.swift */,
+				9ED61634224D489400A3DD0E /* CustomPushAnimator.swift */,
 				9EE9C779224E26F500689D99 /* CustomInteractiveTransition.swift */,
 			);
 			path = UsersList;

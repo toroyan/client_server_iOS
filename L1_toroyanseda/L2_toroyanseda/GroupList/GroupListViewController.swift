@@ -15,32 +15,33 @@ import Foundation
 import RealmSwift
 
 class Rgroups: Object {
-   // @objc dynamic var id = 0
+
     @objc dynamic var name = ""
     @objc dynamic var gUrl = ""
     }
 
 var groupsName: [Any] = []
+var groupsObserver: [Any] = []
 
 
-
-class GroupListViewController: UIViewController {
+class GroupListViewController: UIViewController, UITableViewDataSource {
     var indexUser=0
     var groups = ["Painting", "Dancing", "Music", "Theatre"]
     var groupsL = [String]()
     var gImages = [String]()
     var userName = [String]()
+    var Ntoken: NotificationToken?
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self as! UITableViewDataSource 
+        tableView.dataSource = self
     
         let session = Session.shared
       
      
             let GroupURL="https://api.vk.com/method/groups.get?access_token=\(session.token)&fields=photo_100,name&extended=1&v=5.95"
-        
+            print(GroupURL)
             Alamofire.request(GroupURL).responseObject { (response: DataResponse<GroupsResponse>) in
                 
                 let gResponse = response.result.value
@@ -55,7 +56,6 @@ class GroupListViewController: UIViewController {
                             newRgroups.gUrl = groups.photo!
                             realm.add(newRgroups)
                             try realm.commitWrite()
-                            
                         }
                         catch{
                             print(error)
@@ -67,9 +67,8 @@ class GroupListViewController: UIViewController {
             self.tableView.reloadData()
                 
             }
-       loadingData()
-        tableView.reloadData()
 
+        observing()
         let realm = try! Realm()
         print(realm.configuration.fileURL)
     
@@ -94,6 +93,48 @@ class GroupListViewController: UIViewController {
         }
     }
     
+    func observing(){
+        guard let realm = try? Realm() else {
+            print("suddenly fucking moment")
+            return
+            
+        }
+        var groupsObserver = realm.objects(Rgroups.self)
+        
+        for group in groupsObserver{
+            groupsL.append(group.name)
+            gImages.append(group.gUrl)
+        }
+  
+        Ntoken = groupsObserver.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let tableView = self?.tableView else { return }
+            switch changes {
+            case .initial:
+                tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                tableView.beginUpdates()
+                var indexPath = IndexPath(row: self!.groupsL.count, section: 0)
+                 var groupsObserver = realm.objects(Rgroups.self)
+                self!.groupsL.removeAll()
+                self!.gImages.removeAll()
+                for group in groupsObserver{
+                    self!.groupsL.append(group.name)
+                    self!.gImages.append(group.gUrl)
+                }
+                tableView.insertRows(at: [indexPath], with: .automatic)
+               tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+                                   with: .automatic)
+                    print("reload")
+              
+                
+      tableView.endUpdates()
+            case .error(let error):
+                fatalError("\(error)")
+            }
+        }
+        
+    }
+    
    @IBAction func addGroup(segue: UIStoryboardSegue) {
         if let info = segue.source as? NewGroupViewController{
             guard let indexPath = info.tableView.indexPathForSelectedRow else{
@@ -106,19 +147,18 @@ class GroupListViewController: UIViewController {
                 
             }
     }
-}
 
-    extension GroupListViewController : UITableViewDataSource {
-       
+func numberOfSections(in tableView: UITableView) -> Int {
+     return 1
+    }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return groupsL.count
-         //   return 30
-       
+            return groupsL.count
+      
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as! GroupListTableViewCell
-          
+             
             cell.groupNameLabel.text = groupsL[indexPath.row]
             
            if let imageURL = gImages[indexPath.row] as? String {
@@ -147,8 +187,7 @@ class GroupListViewController: UIViewController {
             }
         }
 
-        
-        
+ 
         
     }
 
